@@ -149,3 +149,32 @@ console.log(swiss);
 const flightData2 = [234, "Ardevi44"];
 book.call(eurowings, ...flightData2);
 console.log(eurowings);
+
+// The bind function method
+
+const bookEW = book.bind(eurowings);
+bookEW(23, "Steven Williams");
+bookEW(45, "Steven Universe");
+
+// We still can specify the parameters required in the original function
+// so if we specify the airline number we only going to need the name
+// of the passenger this time.
+
+const bookEW23 = book.bind(eurowings, 1234);
+bookEW23("Eloisa");
+
+// With event listeners
+lufthansa.planes = 300;
+lufthansa.buyPlane = function () {
+  console.log(this);
+
+  this.planes++;
+  console.log(this.planes);
+};
+
+document
+  .querySelector(".buy")
+  .addEventListener("click", lufthansa.buyPlane.bind(lufthansa));
+
+// tax impuesto
+// rate tasa
