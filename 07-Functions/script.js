@@ -140,3 +140,12 @@ const swiss = {
 
 book.call(swiss, 583, "Mary Cooper");
 console.log(swiss);
+
+// The apply method
+const flightData = [583, "George Cooper"];
+book.apply(swiss, flightData);
+console.log(swiss);
+// Another way to do that buy using call instead apply
+const flightData2 = [234, "Ardevi44"];
+book.call(eurowings, ...flightData2);
+console.log(eurowings);
