@@ -75,9 +75,26 @@ const transformer = function (str, fn) {
 transformer("Javascript is the best!", upperFirstWord);
 transformer("Javascript is the best!", oneWord);
 
-const high5 = function (name) {
+const high5Friends = function (name) {
   console.log(`👋 Hi ${name}`);
 };
 
-document.body.addEventListener("click", high5);
-["Jonas", "Martha", "Adam"].forEach(high5);
+const high5 = function () {
+  console.log(`👋 Hi`);
+};
+
+// document.body.addEventListener("click", high5);
+["Jonas", "Martha", "Adam"].forEach(high5Friends);
+
+// Functions returning functions example
+
+const greet = function (greeting) {
+  return function (name) {
+    console.log(`${greeting} ${name}`);
+  };
+};
+
+const greet2 = greeting => name => console.log(`${greeting} ${name}`);
+
+greet("Hey")("Marisol");
+greet2("Hi")("Arbey");
