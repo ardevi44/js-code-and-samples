@@ -112,3 +112,15 @@ console.log("letters array concat: ", letters);
 
 // * Join method
 console.log(letters.join(" - "));
+
+// At Method
+console.log(arr2[0]);
+console.log(arr2.at(0));
+
+// Getting last array element
+console.log(arr2[arr2.length - 1]);
+console.log(arr2.slice(-1)[0]);
+// New method
+console.log(arr2.at(-1));
+console.log("Ardevi44".at(0));
+console.log("Ardevi44".at(-1));
