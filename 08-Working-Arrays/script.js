@@ -77,6 +77,7 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // * Array methods
 
+/*
 let arr = ["a", "b", "c", "d", "e"];
 
 console.log(arr);
@@ -137,12 +138,15 @@ console.log("Ardevi44".at(-1));
 //   }
 // }
 
+*/
+
 /*
 1. The current element
 2. The index
 3. The array
 */
 
+/*
 movements.forEach(function (movement, index, array) {
   console.log(
     movement > 0
@@ -150,6 +154,7 @@ movements.forEach(function (movement, index, array) {
       : `[${index + 1}] -> ${Math.abs(movement)} [withdrew]`
   );
 });
+ */
 
 // ForEach method inside Maps and Set in JS
 
@@ -165,6 +170,7 @@ movements.forEach(function (movement, index, array) {
 3. The map
 */
 
+/*
 // Inside a Map
 currencies.forEach(function (value, key, map) {
   console.log(`${key}: ${value}`);
@@ -177,3 +183,4 @@ console.log(currenciesUnique);
 currenciesUnique.forEach(function (value, _, map) {
   console.log(`${value}: ${value}`);
 });
+ */
