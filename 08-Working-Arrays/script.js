@@ -150,3 +150,30 @@ movements.forEach(function (movement, index, array) {
       : `[${index + 1}] -> ${Math.abs(movement)} [withdrew]`
   );
 });
+
+// ForEach method inside Maps and Set in JS
+
+// const currencies = new Map([
+//   ["USD", "United States dollar"],
+//   ["EUR", "Euro"],
+//   ["GBP", "Pound sterling"],
+// ]);
+
+/*
+1. The value
+2. The key
+3. The map
+*/
+
+// Inside a Map
+currencies.forEach(function (value, key, map) {
+  console.log(`${key}: ${value}`);
+});
+
+// Inside a Set
+// A set doesn't have keys or indexes, just values and these are uniques.
+const currenciesUnique = new Set(["USD", "GBP", "USD", "EUR", "EUR"]);
+console.log(currenciesUnique);
+currenciesUnique.forEach(function (value, _, map) {
+  console.log(`${value}: ${value}`);
+});
