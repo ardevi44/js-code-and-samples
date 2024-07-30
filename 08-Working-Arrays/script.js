@@ -61,6 +61,8 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+// * DOC: Display the movements deposits and withdrawals of each user account.
+
 const displayMovements = function (movements) {
   containerMovements.innerHTML = "";
   console.log(movements);
