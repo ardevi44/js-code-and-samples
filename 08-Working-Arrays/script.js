@@ -74,3 +74,41 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+
+// * Array methods
+
+let arr = ["a", "b", "c", "d", "e"];
+
+console.log(arr);
+console.log(arr.slice(2)); // Start index
+console.log(arr.slice(2, 5)); // Start index and final index excluding it
+console.log(arr.slice(-2)); // Two positions from the end
+console.log(arr.slice(-1)); // Just the las index
+console.log(arr.slice(1, -2)); // The second parameter starts from the end until the second element from the end but excluding it so this is b and c elements.
+console.log(arr.slice());
+console.log([...arr]);
+
+// * The splice method
+
+const months = ["Jan", "March", "April", "June"];
+months.splice(1, 0, "Feb");
+// Inserts at index 1
+console.log(months);
+// Expected output: Array ["Jan", "Feb", "March", "April", "June"]
+
+months.splice(4, 1, "May");
+// Replaces 1 element at index 4
+console.log(months);
+// Expected output: Array ["Jan", "Feb", "March", "April", "May"]
+
+// * The Reverse method
+const arr2 = ["j", "i", "h", "g", "f"];
+console.log("New arr2: ", arr2);
+console.log("arr2 reversed: ", arr2.reverse());
+
+// * The Concat method
+const letters = arr.concat(arr2);
+console.log("letters array concat: ", letters);
+
+// * Join method
+console.log(letters.join(" - "));
