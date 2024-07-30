@@ -124,3 +124,29 @@ console.log(arr2.slice(-1)[0]);
 console.log(arr2.at(-1));
 console.log("Ardevi44".at(0));
 console.log("Ardevi44".at(-1));
+
+// * ForEach Array method
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// for (const [i, movement] of movements.entries()) {
+//   if (movement > 0) {
+//     console.log(`Movement ${i + 1}: You deposited ${movement}`);
+//   } else {
+//     console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
+//   }
+// }
+
+/*
+1. The current element
+2. The index
+3. The array
+*/
+
+movements.forEach(function (movement, index, array) {
+  console.log(
+    movement > 0
+      ? `[${index + 1}] -> ${movement} [deposited]`
+      : `[${index + 1}] -> ${Math.abs(movement)} [withdrew]`
+  );
+});
