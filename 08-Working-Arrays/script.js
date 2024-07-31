@@ -94,3 +94,17 @@ const currencies = new Map([
 ]);
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// DOC: It Will create Computing user names for each account in the global array of accounts
+
+const createUserNames = accounts => {
+  accounts.forEach(account => {
+    account.userName = account.owner
+      .toLowerCase()
+      .split(" ")
+      .map(eachWord => eachWord[0])
+      .join("");
+  });
+};
+
+createUserNames(accounts);
