@@ -108,3 +108,22 @@ const createUserNames = accounts => {
 };
 
 createUserNames(accounts);
+
+// DOC: Filtering the deposits
+
+const deposits = movements.filter(mov => mov > 0);
+console.log(deposits);
+
+// NOTE: We do the same as above but using the forEach loop
+/*
+const depositsFor = [];
+movements.forEach(mov => {
+  if (mov > 0) {
+    depositsFor.push(mov);
+  }
+});
+ */
+
+// DOC: Filtering the withdrawals
+const withdrawals = movements.filter(mov => mov < 0);
+console.log(withdrawals);
