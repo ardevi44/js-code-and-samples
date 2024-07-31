@@ -24,23 +24,23 @@ months.splice(4, 1, "May");
 console.log(months);
 // Expected output: Array ["Jan", "Feb", "March", "April", "May"]
 
-// * The Reverse method
+// DOC: Reverse method
 const arr2 = ["j", "i", "h", "g", "f"];
 console.log("New arr2: ", arr2);
 console.log("arr2 reversed: ", arr2.reverse());
 
-// * The Concat method
+// DOC: Concat method
 const letters = arr.concat(arr2);
 console.log("letters array concat: ", letters);
 
-// * Join method
+// DOC: Join method
 console.log(letters.join(" - "));
 
-// At Method
+// DOC: At Method
 console.log(arr2[0]);
 console.log(arr2.at(0));
 
-// Getting last array element
+// NOTE: Getting last array element
 console.log(arr2[arr2.length - 1]);
 console.log(arr2.slice(-1)[0]);
 // New method
@@ -102,3 +102,20 @@ console.log(currenciesUnique);
 currenciesUnique.forEach(function (value, _, map) {
   console.log(`${value}: ${value}`);
 });
+
+// DOC: Map method in javascript.
+
+/* NOTE: Will give us a new array, original array will not be modified
+- This will transform each element of an array 
+*/
+
+const eurToUsd = 1.1;
+
+const movementsUSD = movements.map(mov => mov * eurToUsd);
+console.log(movements);
+console.log(movementsUSD);
+
+const movementsUSDfor = [];
+for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
+
+console.log(movementsUSDfor);
