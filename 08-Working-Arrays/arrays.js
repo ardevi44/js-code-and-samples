@@ -107,6 +107,10 @@ currenciesUnique.forEach(function (value, _, map) {
 
 /* NOTE: Will give us a new array, original array will not be modified
 - This will transform each element of an array 
+- Map has access to the same parameters as the forEach function in the arrays
+  1. Current Item
+  2. Index number
+  3. The array itself
 */
 
 const eurToUsd = 1.1;
