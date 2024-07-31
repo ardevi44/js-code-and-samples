@@ -115,11 +115,23 @@ currenciesUnique.forEach(function (value, _, map) {
 
 const eurToUsd = 1.1;
 
+/*
+NOTE: Using array methods ...
 const movementsUSD = movements.map(mov => mov * eurToUsd);
 console.log(movements);
 console.log(movementsUSD);
 
+Using for or method ...
 const movementsUSDfor = [];
 for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
 
 console.log(movementsUSDfor);
+ */
+
+// NOTE: Chaining array methods
+const totalDepositsUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(totalDepositsUSD);
