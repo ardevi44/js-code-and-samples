@@ -83,6 +83,13 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const calcDisplayBalance = movements => {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+
+calcDisplayBalance(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -127,3 +134,18 @@ movements.forEach(mov => {
 // DOC: Filtering the withdrawals
 const withdrawals = movements.filter(mov => mov < 0);
 console.log(withdrawals);
+
+/*
+NOTE: 
+- The accumulator - like a snowball taking new values 
+- The current value
+- The index
+- The array
+The reduce method has a second parameter in this case is the initial
+value of the accumulator.
+*/
+const balance = movements.reduce((acc, cur) => {
+  // console.log(`Iter: ${i}, Curr ${cur}, Accum: ${acc}`);
+  return acc + cur;
+}, 0);
+console.log(balance);
