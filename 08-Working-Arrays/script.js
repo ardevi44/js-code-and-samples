@@ -35,6 +35,10 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
+const curSignEntities = {
+  euro: "&euro;",
+};
+
 // Elements
 const labelWelcome = document.querySelector(".welcome");
 const labelDate = document.querySelector(".date");
@@ -61,7 +65,7 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-// * DOC: Display the movements deposits and withdrawals of each user account.
+// * DOC: Display the movements deposits and withdrawals of the account1
 
 const displayMovements = function (movements) {
   containerMovements.innerHTML = "";
@@ -81,14 +85,43 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
+// * DOC: calc and Display the balance of account 1
 
 const calcDisplayBalance = movements => {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${balance} EUR`;
 };
 
+// DOC: Calc and Display the summary of the deposits, withdrawals and the interest from the bank of the account1
+
+const calcDisplaySummary = movements => {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter((interest, i, arr) => {
+      console.log(arr);
+      return interest >= 1;
+    })
+    .reduce((acc, interest) => acc + interest, 0);
+
+  labelSumIn.innerHTML = `${incomes}${curSignEntities.euro}`;
+  labelSumOut.innerHTML = `${Math.abs(out)}${curSignEntities.euro}`;
+  labelSumInterest.innerHTML = `${interest}${curSignEntities.euro}`;
+};
+
+displayMovements(account1.movements);
+
 calcDisplayBalance(account1.movements);
+
+calcDisplaySummary(account1.movements);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
