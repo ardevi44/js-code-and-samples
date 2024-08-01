@@ -83,7 +83,6 @@ const createUserNames = accounts => {
 
 const displayMovements = function (movements) {
   containerMovements.innerHTML = "";
-  console.log(movements);
   movements.forEach(function (mov, i) {
     const typeOfMovement = mov > 0 ? "deposit" : "withdrawal";
     const movementRow = `
@@ -94,15 +93,15 @@ const displayMovements = function (movements) {
         <div class="movements__value">${mov}</div>
       </div>
     `;
-    // console.log(movementRow);
     containerMovements.insertAdjacentHTML("afterbegin", movementRow);
   });
 };
 
 // * DOC: calc and Display the balance of account 1
 
-const calcDisplayBalance = movements => {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+const calcDisplayBalance = acc => {
+  const balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  acc.balance = balance;
   labelBalance.textContent = `${balance} EUR`;
 };
 
@@ -121,7 +120,6 @@ const calcDisplaySummary = account => {
     .filter(mov => mov > 0)
     .map(deposit => (deposit * account.interestRate) / 100)
     .filter((interest, i, arr) => {
-      console.log(arr);
       return interest >= 1;
     })
     .reduce((acc, interest) => acc + interest, 0);
@@ -131,9 +129,18 @@ const calcDisplaySummary = account => {
   labelSumInterest.innerHTML = `${interest}${curSignEntities.euro}`;
 };
 
+const updateUI = function (acc) {
+  // Display movements from actual account
+  displayMovements(acc.movements);
+  // Display balance from actual account
+  calcDisplayBalance(acc);
+  // Display summary
+  calcDisplaySummary(acc);
+};
+
 createUserNames(accounts);
 
-// DOC: Event handler for log in into the application
+// DOC: Event handler for log in to the application
 // Here is where the fun BEGINS
 
 btnLogin.addEventListener("click", function (e) {
@@ -145,17 +152,36 @@ btnLogin.addEventListener("click", function (e) {
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur();
-    // Display UI and welcome message
+    // Display the welcome message
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(" ")[0]
     }`;
+    updateUI(currentAccount);
     containerApp.style.opacity = 100;
-    // Display movements from actual account
-    displayMovements(currentAccount.movements);
-    // Display balance from actual account
-    calcDisplayBalance(currentAccount.movements);
-    // Display summary
-    calcDisplaySummary(currentAccount);
+  }
+});
+
+// DOC: Starts or handle a new transference
+
+btnTransfer.addEventListener("click", e => {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.userName === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = "";
+
+  if (
+    receiverAcc &&
+    amount > 0 &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.userName !== currentAccount.userName
+  ) {
+    console.log(`Amount to transfer ${amount}`);
+    console.log(`Person who receives ${receiverAcc.owner}`);
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+    updateUI(currentAccount);
   }
 });
 
@@ -217,3 +243,10 @@ const account = accounts.find(acc => acc.owner === "Jessica Davis");
 console.log(account);
 
  */
+
+/*TODO:
+* Probably the balance of each account should be calculated
+* before display all the info of the account. Because the balance property
+* is created until the user logs into the app. But probably this actions impact in the
+* loading of the page.
+Also we going to need recalculate this balance when transfer, deposit and loan into the account */
