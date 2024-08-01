@@ -35,6 +35,8 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
+let currentAccount;
+
 const curSignEntities = {
   euro: "&euro;",
 };
@@ -65,6 +67,18 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+// * DOC: It Will create Computing user names for each account in the global array of accounts
+
+const createUserNames = accounts => {
+  accounts.forEach(account => {
+    account.userName = account.owner
+      .toLowerCase()
+      .split(" ")
+      .map(eachWord => eachWord[0])
+      .join("");
+  });
+};
+
 // * DOC: Display the movements deposits and withdrawals of the account1
 
 const displayMovements = function (movements) {
@@ -94,18 +108,18 @@ const calcDisplayBalance = movements => {
 
 // DOC: Calc and Display the summary of the deposits, withdrawals and the interest from the bank of the account1
 
-const calcDisplaySummary = movements => {
-  const incomes = movements
+const calcDisplaySummary = account => {
+  const incomes = account.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
 
-  const out = movements
+  const out = account.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
 
-  const interest = movements
+  const interest = account.movements
     .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
+    .map(deposit => (deposit * account.interestRate) / 100)
     .filter((interest, i, arr) => {
       console.log(arr);
       return interest >= 1;
@@ -117,16 +131,39 @@ const calcDisplaySummary = movements => {
   labelSumInterest.innerHTML = `${interest}${curSignEntities.euro}`;
 };
 
-displayMovements(account1.movements);
+createUserNames(accounts);
 
-calcDisplayBalance(account1.movements);
+// DOC: Event handler for log in into the application
+// Here is where the fun BEGINS
 
-calcDisplaySummary(account1.movements);
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.userName === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Clear input fields
+    inputLoginUsername.value = inputLoginPin.value = "";
+    inputLoginPin.blur();
+    // Display UI and welcome message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(" ")[0]
+    }`;
+    containerApp.style.opacity = 100;
+    // Display movements from actual account
+    displayMovements(currentAccount.movements);
+    // Display balance from actual account
+    calcDisplayBalance(currentAccount.movements);
+    // Display summary
+    calcDisplaySummary(currentAccount);
+  }
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
+/*
 const currencies = new Map([
   ["USD", "United States dollar"],
   ["EUR", "Euro"],
@@ -134,51 +171,49 @@ const currencies = new Map([
 ]);
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+ */
 
-// DOC: It Will create Computing user names for each account in the global array of accounts
-
-const createUserNames = accounts => {
-  accounts.forEach(account => {
-    account.userName = account.owner
-      .toLowerCase()
-      .split(" ")
-      .map(eachWord => eachWord[0])
-      .join("");
-  });
-};
-
-createUserNames(accounts);
-
-// DOC: Filtering the deposits
+/* NOTE:: - Code example Filtering deposits
 
 const deposits = movements.filter(mov => mov > 0);
-console.log(deposits);
 
-// NOTE: We do the same as above but using the forEach loop
-/*
+*/
+
+/* NOTE: We do the same as above but using the forEach loop
+
 const depositsFor = [];
 movements.forEach(mov => {
   if (mov > 0) {
     depositsFor.push(mov);
   }
 });
- */
 
-// DOC: Filtering the withdrawals
+*/
+
+/* NOTE: - Code example Filtering withdrawals
+
 const withdrawals = movements.filter(mov => mov < 0);
-console.log(withdrawals);
+
+*/
 
 /*
-NOTE: 
+NOTE: Code example the reduce method
 - The accumulator - like a snowball taking new values 
 - The current value
 - The index
 - The array
 The reduce method has a second parameter in this case is the initial
 value of the accumulator.
-*/
+
 const balance = movements.reduce((acc, cur) => {
   // console.log(`Iter: ${i}, Curr ${cur}, Accum: ${acc}`);
   return acc + cur;
 }, 0);
-console.log(balance);
+*/
+
+/* NOTE: Code example the find array method
+
+const account = accounts.find(acc => acc.owner === "Jessica Davis");
+console.log(account);
+
+ */
