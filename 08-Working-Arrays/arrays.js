@@ -2,6 +2,7 @@
 
 let arr = ["a", "b", "c", "d", "e"];
 
+/*
 console.log(arr);
 console.log(arr.slice(2)); // Start index
 console.log(arr.slice(2, 5)); // Start index and final index excluding it
@@ -50,8 +51,12 @@ console.log("Ardevi44".at(-1));
 
 // DOC: ForEach Array method
 
+ */
+
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+/*
+// Using the for of method
 for (const [i, movement] of movements.entries()) {
   if (movement > 0) {
     console.log(`Movement ${i + 1}: You deposited ${movement}`);
@@ -60,6 +65,8 @@ for (const [i, movement] of movements.entries()) {
   }
 }
 
+ */
+
 /*
 NOTE: Parameters order
 1. The current element
@@ -67,6 +74,7 @@ NOTE: Parameters order
 3. The array
 */
 
+/*
 movements.forEach(function (movement, index, array) {
   console.log(
     movement > 0
@@ -74,6 +82,7 @@ movements.forEach(function (movement, index, array) {
       : `[${index + 1}] -> ${Math.abs(movement)} [withdrew]`
   );
 });
+ */
 
 // DOC: ForEach method inside Maps and Set in JS
 
@@ -90,6 +99,7 @@ NOTE: Parameters order
 3. The map
 */
 
+/*
 // Inside a Map
 currencies.forEach(function (value, key, map) {
   console.log(`${key}: ${value}`);
@@ -102,6 +112,8 @@ console.log(currenciesUnique);
 currenciesUnique.forEach(function (value, _, map) {
   console.log(`${value}: ${value}`);
 });
+
+*/
 
 // DOC: Map method in javascript.
 
@@ -127,7 +139,7 @@ for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
 
 console.log(movementsUSDfor);
  */
-
+/*
 // NOTE: Chaining array methods
 const totalDepositsUSD = movements
   .filter(mov => mov > 0)
@@ -135,3 +147,14 @@ const totalDepositsUSD = movements
   .reduce((acc, mov) => acc + mov, 0);
 
 console.log(totalDepositsUSD);
+ */
+
+// NOTE: The some array method
+
+console.log(movements);
+// includes evaluates just equality
+console.log("There is a withdrawal equal to -130: ", movements.includes(-130));
+// It returns true or false based on the condition
+const amount = 80000;
+const anyDeposits = movements.some(mov => mov > amount);
+console.log(`There is any value above ${amount}:`, anyDeposits);
