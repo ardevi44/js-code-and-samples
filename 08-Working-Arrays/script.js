@@ -67,6 +67,8 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+// TASKS
+
 // * DOC: It Will create Computing user names for each account in the global array of accounts
 
 const createUserNames = accounts => {
@@ -140,6 +142,8 @@ const updateUI = function (acc) {
 
 createUserNames(accounts);
 
+// EVENT HANDLERS
+
 // DOC: Event handler for log in to the application
 // Here is where the fun BEGINS
 
@@ -183,6 +187,25 @@ btnTransfer.addEventListener("click", e => {
     receiverAcc.movements.push(amount);
     updateUI(currentAccount);
   }
+});
+
+// DOC: handle the close account process using findIndex method
+
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (
+    inputCloseUsername.value === currentAccount.userName &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.userName === currentAccount.userName
+    );
+    console.log(index);
+    accounts.splice(index, 1);
+    containerApp.style.opacity = 0;
+  }
+
+  inputCloseUsername.value = inputClosePin.value = "";
 });
 
 /////////////////////////////////////////////////
