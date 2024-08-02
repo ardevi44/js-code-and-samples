@@ -35,6 +35,24 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
+// DOC: Calculate a overall Balance of all the accounts.
+
+const calculateOverallBalance = accounts => {
+  // const overall = accounts
+  //   .map(acc => acc.movements)
+  //   .flat()
+  //   .reduce((accum, movement) => accum + movement, 0);
+
+  // Doing the same thing but using flatMap()
+  const overall = accounts
+    .flatMap(acc => acc.movements)
+    .reduce((accum, movement) => accum + movement, 0);
+  return overall;
+};
+
+const overallBalance = calculateOverallBalance(accounts);
+console.log(overallBalance);
+
 let currentAccount;
 
 const curSignEntities = {
