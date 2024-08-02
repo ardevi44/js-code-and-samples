@@ -165,3 +165,11 @@ console.log(`There is any value above ${amount}:`, anyDeposits);
 // Separate the function and the passed as argument
 isNumberType = value => typeof value === "number";
 console.log(movements.every(isNumberType));
+
+const arr2 = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr2.flat());
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat());
+// We can specify the level of abstraction in the parameter
+console.log(arrDeep.flat(2));
