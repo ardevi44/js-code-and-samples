@@ -208,6 +208,18 @@ btnClose.addEventListener("click", function (e) {
   inputCloseUsername.value = inputClosePin.value = "";
 });
 
+btnLoan.addEventListener("click", e => {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // Add the loan amount in the movements
+    currentAccount.movements.push(amount);
+    // Update de UI again
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = "";
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES

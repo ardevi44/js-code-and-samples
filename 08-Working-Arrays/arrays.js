@@ -158,3 +158,10 @@ console.log("There is a withdrawal equal to -130: ", movements.includes(-130));
 const amount = 80000;
 const anyDeposits = movements.some(mov => mov > amount);
 console.log(`There is any value above ${amount}:`, anyDeposits);
+
+// NOTE: The every array method
+// Every elements in the array pass the condition returns true
+// console.log(typeof -12);
+// Separate the function and the passed as argument
+isNumberType = value => typeof value === "number";
+console.log(movements.every(isNumberType));
