@@ -175,12 +175,13 @@ console.log(arrDeep.flat());
 console.log(arrDeep.flat(2));
 
 // Sorting arrays
-
+/*
 const owners = ["Jonas", "Zach", "Adam", "Martha"];
 console.log(owners);
 console.log(owners.sort()); // This mutate the array, be careful
 
 console.log(movements);
+ */
 /*
 think a and b are consecutive numbers
 a = 450
@@ -197,6 +198,7 @@ So for print in ascendant order we do ...
 //   })
 // );
 
+/*
 // But Doing this better ...
 console.log(
   // 450 - (-400) = 850 this switch the things
@@ -212,3 +214,43 @@ console.log(
     if (b > a) return 1;
   })
 );
+ */
+
+// More ways of creating and filling arrays
+
+// Traditional way
+const arr3 = [1, 2, 3, 4, 5, 6, 7];
+console.log(arr3);
+
+// Using the constructor way
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+
+// This creates an array of seven empty spaces
+const x = new Array(7);
+console.log(x);
+
+// Fill the 7 spaces array
+
+/*
+NOTE: fill method mutates the original array
+1. the value that we want to fill
+2. the start index
+3. the end index, no included
+Exact in that order
+*/
+x.fill(1, 3, 5);
+console.log(x);
+
+// filling also full arrays, a kind of replace behavior
+arr3.fill(23, 2, 3);
+console.log(arr3);
+
+// Array from() method allows to create an array from an specific object and a callback function
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+
+// const z = Array.from({ length: 7 }, (cur, i) => i + 1);
+// The underscore sign means that this is a throwaway variable, we don't need it but steel we have to declare it.
+// Just another convention to consider.
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z);
