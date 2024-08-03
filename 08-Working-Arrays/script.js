@@ -34,6 +34,7 @@ const account4 = {
 };
 
 const accounts = [account1, account2, account3, account4];
+let movementsSorted = false;
 
 // DOC: Calculate a overall Balance of all the accounts.
 
@@ -226,6 +227,8 @@ btnClose.addEventListener("click", function (e) {
   inputCloseUsername.value = inputClosePin.value = "";
 });
 
+// Handle the loan logic
+
 btnLoan.addEventListener("click", e => {
   e.preventDefault();
   const amount = Number(inputLoanAmount.value);
@@ -236,6 +239,23 @@ btnLoan.addEventListener("click", e => {
     updateUI(currentAccount);
   }
   inputLoanAmount.value = "";
+});
+
+// handle movements sort
+
+btnSort.addEventListener("click", () => {
+  let movs;
+  if (!movementsSorted) {
+    // Order
+    movs = currentAccount.movements.slice().sort((a, b) => a - b);
+    displayMovements(movs);
+    movementsSorted = true;
+  } else {
+    // Show as it is
+    displayMovements(currentAccount.movements);
+    movementsSorted = false;
+  }
+  // NOTE: Check the video again to see another extra solution
 });
 
 /////////////////////////////////////////////////
