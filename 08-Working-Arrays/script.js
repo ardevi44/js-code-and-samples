@@ -86,6 +86,10 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+// This will save time for log in
+// inputLoginUsername.value = "js";
+// inputLoginPin.value = "1111";
+
 // TASKS
 
 // * DOC: It Will create Computing user names for each account in the global array of accounts
@@ -111,7 +115,7 @@ const displayMovements = function (movements) {
         <div class="movements__type movements__type--${typeOfMovement}">
           ${i + 1} ${typeOfMovement}
         </div>
-        <div class="movements__value">${mov}</div>
+        <div class="movements__value">${mov}${curSignEntities.euro}</div>
       </div>
     `;
     containerMovements.insertAdjacentHTML("afterbegin", movementRow);
@@ -183,6 +187,14 @@ btnLogin.addEventListener("click", function (e) {
     containerApp.style.opacity = 100;
   }
 });
+
+/*DOC: This line triggers the click event in the login button, if you want just log in
+and not enter each value each time you want to log*/
+
+/*
+const forceEvent = new Event("click");
+btnLogin.dispatchEvent(forceEvent);
+*/
 
 // DOC: Starts or handle a new transference
 
@@ -323,3 +335,22 @@ console.log(account);
 * is created until the user logs into the app. But probably this actions impact in the
 * loading of the page.
 Also we going to need recalculate this balance when transfer, deposit and loan into the account */
+
+/*
+Array from() method in this app, just for fun
+
+labelBalance.addEventListener("click", () => {
+  // Will create an Array from some iterable in the DOM like this NodeList element
+  const movementsUI = Array.from(
+    document.querySelectorAll(".movements__value"),
+    // This will remove the last letter of the text
+    el => Number(el.textContent.slice(0, el.textContent.length - 1))
+  );
+  console.log(movementsUI);
+
+  // Another way to do as above
+  const movementsUI2 = [...document.querySelectorAll(".movements__value")];
+  console.log(movementsUI2);
+  // Then if we want, we map the array to convert it in something else ...
+});
+*/
