@@ -173,3 +173,42 @@ const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
 console.log(arrDeep.flat());
 // We can specify the level of abstraction in the parameter
 console.log(arrDeep.flat(2));
+
+// Sorting arrays
+
+const owners = ["Jonas", "Zach", "Adam", "Martha"];
+console.log(owners);
+console.log(owners.sort()); // This mutate the array, be careful
+
+console.log(movements);
+/*
+think a and b are consecutive numbers
+a = 450
+b = -400
+if we return a value less than cero, a before b
+if we return a positive number, b before a
+
+So for print in ascendant order we do ...
+*/
+// console.log(
+//   movements.sort((a, b) => {
+//     if (a < b) return -1; // This will keep the values as they are
+//     if (b < a) return 1; // This will switch the values
+//   })
+// );
+
+// But Doing this better ...
+console.log(
+  // 450 - (-400) = 850 this switch the things
+  // -400 - 300 = -700 this keep it
+  movements.sort((a, b) => a - b)
+);
+
+// Print in descendant order ...
+
+console.log(
+  movements.sort((a, b) => {
+    if (a > b) return -1;
+    if (b > a) return 1;
+  })
+);
