@@ -2,6 +2,36 @@
 
 let arr = ["a", "b", "c", "d", "e"];
 
+const account1 = {
+  owner: "Jonas Schmedtmann",
+  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+  interestRate: 1.2, // %
+  pin: 1111,
+};
+
+const account2 = {
+  owner: "Jessica Davis",
+  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+  interestRate: 1.5,
+  pin: 2222,
+};
+
+const account3 = {
+  owner: "Steven Thomas Williams",
+  movements: [200, -200, 340, -300, -20, 50, 400, -460],
+  interestRate: 0.7,
+  pin: 3333,
+};
+
+const account4 = {
+  owner: "Sarah Smith",
+  movements: [430, 1000, 700, 50, 90],
+  interestRate: 1,
+  pin: 4444,
+};
+
+const accounts = [account1, account2, account3, account4];
+
 /*
 console.log(arr);
 console.log(arr.slice(2)); // Start index
@@ -151,6 +181,7 @@ console.log(totalDepositsUSD);
 
 // NOTE: The some array method
 
+/*
 console.log(movements);
 // includes evaluates just equality
 console.log("There is a withdrawal equal to -130: ", movements.includes(-130));
@@ -173,7 +204,7 @@ const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
 console.log(arrDeep.flat());
 // We can specify the level of abstraction in the parameter
 console.log(arrDeep.flat(2));
-
+ */
 // Sorting arrays
 /*
 const owners = ["Jonas", "Zach", "Adam", "Martha"];
@@ -216,6 +247,7 @@ console.log(
 );
  */
 
+/*
 // More ways of creating and filling arrays
 
 // Traditional way
@@ -230,7 +262,7 @@ const x = new Array(7);
 console.log(x);
 
 // Fill the 7 spaces array
-
+*/
 /*
 NOTE: fill method mutates the original array
 1. the value that we want to fill
@@ -238,6 +270,7 @@ NOTE: fill method mutates the original array
 3. the end index, no included
 Exact in that order
 */
+/*
 x.fill(1, 3, 5);
 console.log(x);
 
@@ -254,3 +287,71 @@ console.log(y);
 // Just another convention to consider.
 const z = Array.from({ length: 7 }, (_, i) => i + 1);
 console.log(z);
+ */
+////////////////////////////////////////////////////777
+// Array methods Practice
+
+// 1. Sum all the deposits in all the accounts together
+
+// const bankDepositSum = accounts.map(acc => acc.movements).flat();
+const bankDepositSum = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 0)
+  .reduce((sum, curr) => sum + curr, 0);
+console.log(bankDepositSum);
+
+// 2. How many deposits have been at least with 1000
+
+// Three ways for do that ...
+
+/*
+console.log(
+  accounts.flatMap(acc => acc.movements).filter(mov => mov >= 1000).length
+);
+
+console.log(
+  accounts
+    .flatMap(acc => acc.movements)
+    .filter(mov => mov >= 1000)
+    .reduce((count, _) => count + 1, 0)
+);
+*/
+
+const numDeposits1000 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((count, curr) => (curr >= 1000 ? ++count : count), 0);
+
+console.log(numDeposits1000);
+
+// 3. Create an object that contains the deposits and withdrawals
+
+const sums = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+      return sums;
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+
+console.log(sums);
+
+// 4. This is a nice title -> This Is a Nice Title
+const convertTitleCase = function (title) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+
+  const exceptions = ["a", "an", "the", "but", "or", "on", "in", "with"];
+
+  const titleCase = title
+    .toLowerCase()
+    .split(" ")
+    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+    .join(" ");
+
+  return capitalize(titleCase);
+};
+
+console.log(convertTitleCase("this is a nice title"));
+console.log(convertTitleCase("this is a LONG title but no too long"));
+console.log(convertTitleCase("and here is another title with an EXAMPLE"));
