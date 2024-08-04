@@ -48,17 +48,17 @@ checkDogs = function (dogsJulia, dogsKate) {
   return allDogsAges;
 };
 
-const firstListOfAges = checkDogs(dogsJulia, dogsKate);
+// const firstListOfAges = checkDogs(dogsJulia, dogsKate);
 
 // INPUT: This bellow arrays are the second input to evaluate.
 
 dogsJulia = [9, 16, 6, 8, 3];
 dogsKate = [10, 5, 6, 1, 4];
 
-const secondListOfAges = checkDogs(dogsJulia, dogsKate);
+// const secondListOfAges = checkDogs(dogsJulia, dogsKate);
 
-console.log(firstListOfAges);
-console.log(secondListOfAges);
+// console.log(firstListOfAges);
+// console.log(secondListOfAges);
 
 ///////////////////////////////////////
 // Coding Challenge #2
@@ -86,5 +86,120 @@ const calcAverageHumanAge = listOfDogsAges => {
     .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
 };
 
-console.log(calcAverageHumanAge(firstListOfAges));
-console.log(calcAverageHumanAge(secondListOfAges));
+// console.log(calcAverageHumanAge(firstListOfAges));
+// console.log(calcAverageHumanAge(secondListOfAges));
+
+///////////////////////////////////////
+// Coding Challenge #2
+
+/* 
+Julia and Kate are still studying dogs, and this time they are studying if dogs are eating too much or too little.
+Eating too much means the dog's current food portion is larger than the recommended portion, and eating too little is the opposite.
+Eating an okay amount means the dog's current food portion is within a range 10% above and 10% below the recommended portion (see hint).
+
+1. Loop over the array containing dog objects, and for each dog, calculate the recommended food portion and add it to the object as a new property. Do NOT create a new array, simply loop over the array. Forumla: recommendedFood = weight ** 0.75 * 28. (The result is in grams of food, and the weight needs to be in kg)
+2. Find Sarah's dog and log to the console whether it's eating too much or too little. HINT: Some dogs have multiple owners, so you first need to find Sarah in the owners array, and so this one is a bit tricky (on purpose) 🤓
+3. Create an array containing all owners of dogs who eat too much ('ownersEatTooMuch') and an array with all owners of dogs who eat too little ('ownersEatTooLittle').
+4. Log a string to the console for each array created in 3., like this: "Matilda and Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat too little!"
+5. Log to the console whether there is any dog eating EXACTLY the amount of food that is recommended (just true or false)
+6. Log to the console whether there is any dog eating an OKAY amount of food (just true or false)
+7. Create an array containing the dogs that are eating an OKAY amount of food (try to reuse the condition used in 6.)
+8. Create a shallow copy of the dogs array and sort it by recommended food portion in an ascending order (keep in mind that the portions are inside the array's objects)
+
+HINT 1: Use many different tools to solve these challenges, you can use the summary lecture to choose between them 😉
+HINT 2: Being within a range 10% above and below the recommended portion means: current > (recommended * 0.90) && current < (recommended * 1.10). Basically, the current portion should be between 90% and 110% of the recommended portion.
+
+TEST DATA:
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] }
+];
+
+GOOD LUCK 😀
+*/
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ["Alice", "Bob"] },
+  { weight: 8, curFood: 200, owners: ["Matilda"] },
+  { weight: 13, curFood: 275, owners: ["Sarah", "John"] },
+  { weight: 32, curFood: 340, owners: ["Michael"] },
+];
+
+// 1. calculate the recommended portion of food.
+dogs.forEach(dog => {
+  dog.recPortionFood = Math.trunc(dog.weight ** 0.75 * 28);
+});
+
+// 2. Find sara's dog and print into the console if is eating too much or too less
+const sarahsDog = dogs.find(dog => dog.owners.some(owner => owner === "Sarah"));
+
+const calcPercentageFood = dog => [
+  Number((dog.recPortionFood * 0.9).toFixed(3)),
+  Number((dog.recPortionFood * 1.1).toFixed(3)),
+];
+const [percent90, percent110] = calcPercentageFood(sarahsDog);
+
+console.log(
+  `Sarah's dog is eating ${
+    sarahsDog.curFood > sarahsDog.recPortionFood ? "too much" : "to little"
+  }`
+);
+// 3. Create an array containing all owners of dogs who eat too much ('ownersEatTooMuch') and an array with all owners of dogs who eat too little ('ownersEatTooLittle').
+
+// 1. the dogs who's eat to much
+// 2. the name of the owners
+const ownersEatTooMuch = dogs
+  .filter(dog => dog.curFood > dog.recPortionFood)
+  .flatMap(dog => dog.owners);
+
+console.log(ownersEatTooMuch);
+
+const ownersEatTooLittle = dogs
+  .filter(dog => dog.curFood < dog.recPortionFood)
+  .flatMap(dog => dog.owners);
+
+console.log(ownersEatTooLittle);
+
+// 4. Log a string to the console for each array created in 3., like this: "Matilda and Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat too little!"
+
+console.log(ownersEatTooMuch.join(" and ") + "'s dogs eat too much!");
+console.log(ownersEatTooLittle.join(" and ") + "'s dogs eat too little!");
+
+// 5. Log to the console whether there is any dog eating EXACTLY the amount of food that is recommended (just true or false)
+
+console.log(
+  "Any dog eating EXACTLY the food recommended? : ",
+  dogs.some(dog => dog.curFood === dog.recPortionFood)
+);
+
+// 6. Log to the console whether there is any dog eating an OKAY amount of food (just true or false)
+// firstDog.curFood > percent90 && firstDog.curFood < percent110
+console.log(
+  "Any dog eating an Okay amount of food? : ",
+  dogs.some(
+    dog =>
+      dog.curFood > dog.recPortionFood * 0.9 &&
+      dog.curFood < dog.recPortionFood * 1.1
+  )
+);
+
+// 7. Create an array containing the dogs that are eating an OKAY amount of food (try to reuse the condition used in 6.)
+
+const healthyEatingDogs = dogs.filter(
+  dog =>
+    dog.curFood > dog.recPortionFood * 0.9 &&
+    dog.curFood < dog.recPortionFood * 1.1
+);
+
+console.log(healthyEatingDogs);
+
+// 8. Create a shallow copy of the dogs array and sort it by recommended food portion in an ascending order (keep in mind that the portions are inside the array's objects)
+
+const byRecPortionAscendant = dogs.slice().sort((pDog, nDog) => {
+  if (pDog.recPortionFood < nDog.recPortionFood) return -1;
+  if (pDog.recPortionFood > nDog.recPortionFood) return 1;
+});
+
+console.log(byRecPortionAscendant);
