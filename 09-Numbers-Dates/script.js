@@ -1,6 +1,11 @@
 "use strict";
 
 /////////////////////////////////////////////////
+/*
+Issues:
+- Match each movement with each date at sort event
+- Create a current date for each loan and display this correctly in the movements - is Pending
+*/
 /////////////////////////////////////////////////
 // BANKIST APP
 
@@ -49,6 +54,8 @@ const account2 = {
   locale: "en-US",
 };
 
+const currentDate = new Date();
+
 const accounts = [account1, account2];
 
 /////////////////////////////////////////////////
@@ -78,22 +85,31 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+// This will save time for log in
+inputLoginUsername.value = "js";
+inputLoginPin.value = "1111";
+
 /////////////////////////////////////////////////
 // Functions
 
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (account, sort = false) {
   containerMovements.innerHTML = "";
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort
+    ? account.movements.slice().sort((a, b) => a - b)
+    : account.movements;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? "deposit" : "withdrawal";
+
+    const date = new Date(account.movementsDates[i]);
 
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
+        <div class="movements__date">${displayMovementDate(date)}</div>
         <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
@@ -138,11 +154,35 @@ const createUsernames = function (accs) {
       .join("");
   });
 };
+
+// Display the current date of the log in in the html
+
+const displayDate = function (date) {
+  const day = `${date.getDate()}`.padStart(2, 0);
+  const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  const year = date.getFullYear();
+  const hour = date.getHours();
+  const minutes = date.getMinutes();
+  labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`;
+};
+
+// Display the movement date in each movement in the html this is called by the displayMovements function each time
+// we have a new movement in the loop.
+
+const displayMovementDate = function (stringDate) {
+  const date = new Date(stringDate);
+  return (
+    `${date.getDate()}`.padStart(2, 0) +
+    `/${date.getMonth() + 1}`.padStart(2, 0) +
+    `/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}`
+  );
+};
+
 createUsernames(accounts);
 
 const updateUI = function (acc) {
   // Display movements
-  displayMovements(acc.movements);
+  displayMovements(acc);
 
   // Display balance
   calcDisplayBalance(acc);
@@ -162,13 +202,13 @@ btnLogin.addEventListener("click", function (e) {
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
-  console.log(currentAccount);
 
   if (currentAccount?.pin === +inputLoginPin.value) {
     // Display UI and message
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(" ")[0]
     }`;
+    displayDate(currentDate);
     containerApp.style.opacity = 100;
 
     // Clear input fields
@@ -179,6 +219,10 @@ btnLogin.addEventListener("click", function (e) {
     updateUI(currentAccount);
   }
 });
+
+// Forcing a click event for the log in
+const forceEventClick = new Event("click");
+btnLogin.dispatchEvent(forceEventClick);
 
 btnTransfer.addEventListener("click", function (e) {
   e.preventDefault();
@@ -244,7 +288,7 @@ btnClose.addEventListener("click", function (e) {
 let sorted = false;
 btnSort.addEventListener("click", function (e) {
   e.preventDefault();
-  displayMovements(currentAccount.movements, !sorted);
+  displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
 
