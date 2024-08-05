@@ -99,3 +99,22 @@ console.log((2.7).toFixed(3));
 console.log((2.345).toFixed(2));
 console.log(+(2.345).toFixed(2)); // coercion to number
 console.groupEnd();
+
+// Playing with remainder and division arithmetic operator
+
+console.log(5 % 2);
+console.log(5 / 2);
+
+console.log(8 % 3);
+console.log(8 / 3);
+
+console.log(6 % 2);
+console.log(6 / 2);
+
+console.log(7 % 2);
+console.log(7 / 2);
+
+const isEven = n => n % 2 === 0;
+console.log(isEven(8));
+console.log(isEven(23));
+console.log(isEven(514));
