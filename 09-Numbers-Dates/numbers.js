@@ -102,6 +102,7 @@ console.groupEnd();
 
 // Playing with remainder and division arithmetic operator
 
+console.group("Testing the remainder operator");
 console.log(5 % 2);
 console.log(5 / 2);
 
@@ -118,3 +119,14 @@ const isEven = n => n % 2 === 0;
 console.log(isEven(8));
 console.log(isEven(23));
 console.log(isEven(514));
+console.groupEnd();
+
+// Numeric separators
+
+console.group("Numeric separators");
+const diameter = 297_460_000_000;
+console.log(diameter);
+
+const priceInCents = 345_99;
+console.log(priceInCents);
+console.groupEnd();
