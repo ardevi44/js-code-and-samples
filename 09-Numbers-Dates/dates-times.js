@@ -41,7 +41,18 @@ console.log("Minutes : ", future.getMinutes());
 console.log("Seconds : ", future.getSeconds());
 console.log(future.toISOString());
 console.log("Time Stamp : ", future.getTime());
-console.log(new Date.now()); // Current time stamp
+console.log(Date.now()); // Current time stamp
 future.setFullYear(2040);
 console.log(future);
+console.groupEnd();
+
+const calcDaysPassed = function (date1, date2) {
+  return Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)); // To convert to days
+};
+
+console.group("Operations with dates: ");
+const future2 = new Date(2037, 10, 19, 15, 23);
+console.log("This is the future2 in numbers", Number(future2));
+const days1 = calcDaysPassed(new Date(2037, 3, 4), new Date(2037, 3, 14));
+console.log(days1);
 console.groupEnd();
