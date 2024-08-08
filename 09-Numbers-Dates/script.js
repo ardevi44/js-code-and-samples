@@ -55,6 +55,16 @@ const account2 = {
   locale: "en-US",
 };
 
+// Locale options configuration
+const localeOptions = {
+  hour: "numeric",
+  minute: "numeric",
+  day: "numeric",
+  month: "numeric",
+  year: "numeric",
+  // weekday: "long",
+};
+
 const currentDate = new Date();
 
 const accounts = [account1, account2];
@@ -158,11 +168,19 @@ const createUsernames = function (accs) {
 
 // Returns the string of the date of log in label
 
-const getDateLogin = function (date) {
-  return (
-    `${date.getDate().toString().padStart(2, 0)}/` +
-    `${(date.getMonth() + 1).toString().padStart(2, 0)}/` +
-    `${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}`
+const getDateLocale = function (date) {
+  // A way to get the locale config from the browser.
+  // const locale = navigator.language;
+
+  // Previous code
+  // return (
+  //   `${date.getDate().toString().padStart(2, 0)}/` +
+  //   `${(date.getMonth() + 1).toString().padStart(2, 0)}/` +
+  //   `${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}`
+  // );
+
+  return new Intl.DateTimeFormat(currentAccount.locale, localeOptions).format(
+    date
   );
 };
 
@@ -177,7 +195,7 @@ const getMovementDate = function (stringDate) {
   };
 
   const daysPassed = calcDaysPassed(new Date(), date);
-  console.log(daysPassed);
+  // console.log(daysPassed);
 
   if (daysPassed === 0) {
     return "Today";
@@ -186,11 +204,12 @@ const getMovementDate = function (stringDate) {
   } else if (daysPassed <= 7) {
     return `${daysPassed} days ago`;
   } else {
-    return (
-      `${date.getDate().toString().padStart(2, 0)}/` +
-      `${(date.getMonth() + 1).toString().padStart(2, 0)}/` +
-      `${date.getFullYear()}`
+    return new Intl.DateTimeFormat(currentAccount.locale, localeOptions).format(
+      date
     );
+    // `${date.getDate().toString().padStart(2, 0)}/` +
+    // `${(date.getMonth() + 1).toString().padStart(2, 0)}/` +
+    // `${date.getFullYear()}`;
   }
 };
 
@@ -224,7 +243,7 @@ btnLogin.addEventListener("click", function (e) {
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(" ")[0]
     }`;
-    labelDate.textContent = getDateLogin(currentDate);
+    labelDate.textContent = getDateLocale(currentDate);
     containerApp.style.opacity = 100;
 
     // Clear input fields
