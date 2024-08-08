@@ -103,14 +103,14 @@ const displayMovements = function (account, sort = false) {
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? "deposit" : "withdrawal";
 
-    const date = new Date(account.movementsDates[i]);
+    const stringDate = new Date(account.movementsDates[i]);
 
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__date">${displayMovementDate(date)}</div>
+        <div class="movements__date">${getMovementDate(stringDate)}</div>
         <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
@@ -156,26 +156,24 @@ const createUsernames = function (accs) {
   });
 };
 
-// Display the current date of the log in in the html
+// Returns the string of the date of log in label
 
-const displayDate = function (date) {
-  const day = `${date.getDate()}`.padStart(2, 0);
-  const month = `${date.getMonth() + 1}`.padStart(2, 0);
-  const year = date.getFullYear();
-  const hour = date.getHours();
-  const minutes = date.getMinutes();
-  labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`;
+const getDateLogin = function (date) {
+  return (
+    `${date.getDate().toString().padStart(2, 0)}/` +
+    `${(date.getMonth() + 1).toString().padStart(2, 0)}/` +
+    `${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}`
+  );
 };
 
-// Display the movement date in each movement in the html this is called by the displayMovements function each time
-// we have a new movement in the loop.
+// Return the string of each movement label
 
-const displayMovementDate = function (stringDate) {
+const getMovementDate = function (stringDate) {
   const date = new Date(stringDate);
   return (
-    `${date.getDate()}`.padStart(2, 0) +
-    `/${date.getMonth() + 1}`.padStart(2, 0) +
-    `/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}`
+    `${date.getDate().toString().padStart(2, 0)}/` +
+    `${(date.getMonth() + 1).toString().padStart(2, 0)}/` +
+    `${date.getFullYear()}`
   );
 };
 
@@ -209,7 +207,7 @@ btnLogin.addEventListener("click", function (e) {
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(" ")[0]
     }`;
-    displayDate(currentDate);
+    labelDate.textContent = getDateLogin(currentDate);
     containerApp.style.opacity = 100;
 
     // Clear input fields
