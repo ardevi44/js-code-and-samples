@@ -24,12 +24,12 @@ const account1 = {
   movementsDates: [
     "2019-11-18T21:31:17.178Z",
     "2019-12-23T07:42:02.383Z",
-    "2020-01-28T09:15:04.904Z",
-    "2020-04-01T10:17:24.185Z",
-    "2020-05-08T14:11:59.604Z",
-    "2020-05-27T17:01:17.194Z",
-    "2020-07-11T23:36:17.929Z",
-    "2020-07-12T10:51:36.790Z",
+    "2024-01-28T09:15:04.904Z",
+    "2024-04-01T10:17:24.185Z",
+    "2024-05-08T14:11:59.604Z",
+    "2024-08-01T23:36:17.929Z",
+    "2024-08-03T17:01:17.194Z",
+    "2024-08-07T00:51:36.790Z",
   ],
   currency: "EUR",
   locale: "pt-PT", // de-DE
@@ -170,11 +170,28 @@ const getDateLogin = function (date) {
 
 const getMovementDate = function (stringDate) {
   const date = new Date(stringDate);
-  return (
-    `${date.getDate().toString().padStart(2, 0)}/` +
-    `${(date.getMonth() + 1).toString().padStart(2, 0)}/` +
-    `${date.getFullYear()}`
-  );
+
+  const calcDaysPassed = (date1, date2) => {
+    console.warn(date1, date2);
+    return Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+  };
+
+  const daysPassed = calcDaysPassed(new Date(), date);
+  console.log(daysPassed);
+
+  if (daysPassed === 0) {
+    return "Today";
+  } else if (daysPassed === 1) {
+    return "Yesterday";
+  } else if (daysPassed <= 7) {
+    return `${daysPassed} days ago`;
+  } else {
+    return (
+      `${date.getDate().toString().padStart(2, 0)}/` +
+      `${(date.getMonth() + 1).toString().padStart(2, 0)}/` +
+      `${date.getFullYear()}`
+    );
+  }
 };
 
 createUsernames(accounts);
