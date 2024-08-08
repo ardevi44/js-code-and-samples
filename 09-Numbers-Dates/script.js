@@ -3,8 +3,9 @@
 /////////////////////////////////////////////////
 /*
 Issues:
-- Match each movement with each date at sort event
 - Create a current date for each loan and display this correctly in the movements - is Pending
+- Create some way of store the movement data like the amount, the date, and some other info that we need.
+- Match each movement with each date at sort event
 */
 /////////////////////////////////////////////////
 // BANKIST APP
@@ -242,6 +243,9 @@ btnTransfer.addEventListener("click", function (e) {
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
 
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiverAcc.movementsDates.push(new Date().toISOString());
+
     // Update UI
     updateUI(currentAccount);
   }
@@ -255,6 +259,9 @@ btnLoan.addEventListener("click", function (e) {
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
     currentAccount.movements.push(amount);
+
+    // Add loan date
+    currentAccount.movementsDates.push(new Date().toISOString());
 
     // Update UI
     updateUI(currentAccount);
