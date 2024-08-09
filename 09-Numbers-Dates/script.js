@@ -121,7 +121,7 @@ const displayMovements = function (account, sort = false) {
       i + 1
     } ${type}</div>
         <div class="movements__date">${getMovementDate(stringDate)}</div>
-        <div class="movements__value">${mov.toFixed(2)}€</div>
+        <div class="movements__value">${getMovementLocale(mov)}</div>
       </div>
     `;
 
@@ -129,31 +129,56 @@ const displayMovements = function (account, sort = false) {
   });
 };
 
-const calcDisplayBalance = function (acc) {
+const setBalanceAccount = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
+  return acc.balance;
 };
 
-const calcDisplaySummary = function (acc) {
+const formatBalanceLocale = function (balance) {
+  return new Intl.NumberFormat(currentAccount.locale, {
+    style: "currency",
+    currency: currentAccount.currency,
+  }).format(balance);
+};
+
+const displayBalance = function (currentAccount) {
+  labelBalance.textContent = `${formatBalanceLocale(
+    setBalanceAccount(currentAccount)
+  )}`;
+};
+
+const calcSummary = function (acc) {
   const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
 
   const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
 
   const interest = acc.movements
     .filter(mov => mov > 0)
     .map(deposit => (deposit * acc.interestRate) / 100)
     .filter((int, i, arr) => {
-      // console.log(arr);
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+  return { incomes, out, interest };
+};
+
+const displaySummary = function ({ incomes, out, interest }) {
+  labelSumIn.textContent = new Intl.NumberFormat(currentAccount.locale, {
+    style: "currency",
+    currency: currentAccount.currency,
+  }).format(incomes);
+  labelSumOut.textContent = new Intl.NumberFormat(currentAccount.locale, {
+    style: "currency",
+    currency: currentAccount.currency,
+  }).format(out);
+  labelSumInterest.textContent = new Intl.NumberFormat(currentAccount.locale, {
+    style: "currency",
+    currency: currentAccount.currency,
+  }).format(interest);
 };
 
 const createUsernames = function (accs) {
@@ -190,12 +215,10 @@ const getMovementDate = function (stringDate) {
   const date = new Date(stringDate);
 
   const calcDaysPassed = (date1, date2) => {
-    console.warn(date1, date2);
     return Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
   };
 
   const daysPassed = calcDaysPassed(new Date(), date);
-  // console.log(daysPassed);
 
   if (daysPassed === 0) {
     return "Today";
@@ -204,26 +227,35 @@ const getMovementDate = function (stringDate) {
   } else if (daysPassed <= 7) {
     return `${daysPassed} days ago`;
   } else {
-    return new Intl.DateTimeFormat(currentAccount.locale, localeOptions).format(
-      date
-    );
+    return new Intl.DateTimeFormat(currentAccount.locale, {
+      // hour: "numeric",
+      // minute: "numeric",
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+      // weekday: "long",
+    }).format(date);
     // `${date.getDate().toString().padStart(2, 0)}/` +
     // `${(date.getMonth() + 1).toString().padStart(2, 0)}/` +
     // `${date.getFullYear()}`;
   }
 };
 
+const getMovementLocale = function (mov) {
+  return new Intl.NumberFormat(currentAccount.locale, {
+    style: "currency",
+    currency: currentAccount.currency,
+  }).format(mov);
+};
+
 createUsernames(accounts);
 
 const updateUI = function (acc) {
-  // Display movements
   displayMovements(acc);
 
-  // Display balance
-  calcDisplayBalance(acc);
+  displayBalance(acc);
 
-  // Display summary
-  calcDisplaySummary(acc);
+  displaySummary(calcSummary(acc));
 };
 
 ///////////////////////////////////////
