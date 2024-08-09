@@ -1,3 +1,4 @@
+/*
 // All numbers in js are treated as float numbers
 console.log(23 === 23.0); // true
 
@@ -130,3 +131,28 @@ console.log(diameter);
 const priceInCents = 345_99;
 console.log(priceInCents);
 console.groupEnd();
+ */
+
+// Internationalizing numbers
+console.warn("Internationalize Numbers: ");
+const num = 3884764.23;
+const localeSo = Intl.DateTimeFormat().resolvedOptions().locale;
+
+// The currency is not defined by the locale, so we have to defined it.
+const options = {
+  style: "currency",
+  // unit: "celsius",
+  currency: "EUR",
+  // useGrouping: false,
+};
+
+console.log("US:        ", new Intl.NumberFormat("en-US", options).format(num));
+console.log("Germany:   ", new Intl.NumberFormat("de-DE", options).format(num));
+console.log("Sirya:     ", new Intl.NumberFormat("ar-SY", options).format(num));
+console.log(
+  "es-MX" + ": ",
+  new Intl.NumberFormat("es-MX", {
+    style: "unit",
+    unit: "kilometer-per-hour",
+  }).format(num)
+);
