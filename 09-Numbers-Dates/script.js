@@ -258,9 +258,36 @@ const updateUI = function (acc) {
   displaySummary(calcSummary(acc));
 };
 
+const startLogoutTimer = function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+
+    const sec = String(time % 60).padStart(2, 0);
+    // In each call, print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+    // When 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = `Log in to get started.`;
+      labelDate.textContent = "";
+      containerApp.style.opacity = 0;
+    }
+    // Decrease 1 second
+    time--;
+  };
+  // Set time to 2 minutes
+  let time = 120; // These are seconds
+
+  // call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+
+  return timer;
+};
+
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
+let currentAccount, timer;
 
 btnLogin.addEventListener("click", function (e) {
   // Prevent form from submitting
@@ -281,6 +308,10 @@ btnLogin.addEventListener("click", function (e) {
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur();
+
+    // Call the logout timer before update the UI
+    if (timer) clearInterval(timer);
+    timer = startLogoutTimer();
 
     // Update UI
     updateUI(currentAccount);
@@ -314,6 +345,10 @@ btnTransfer.addEventListener("click", function (e) {
 
     // Update UI
     updateUI(currentAccount);
+
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogoutTimer();
   }
 });
 
@@ -323,14 +358,14 @@ btnLoan.addEventListener("click", function (e) {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    // Add movement
-    currentAccount.movements.push(amount);
-
-    // Add loan date
-    currentAccount.movementsDates.push(new Date().toISOString());
-
-    // Update UI
-    updateUI(currentAccount);
+    setTimeout(() => {
+      currentAccount.movements.push(amount);
+      currentAccount.movementsDates.push(new Date().toISOString());
+      updateUI(currentAccount);
+      // Reset timer
+      clearInterval(timer);
+      timer = startLogoutTimer();
+    }, 2500);
   }
   inputLoanAmount.value = "";
 });
