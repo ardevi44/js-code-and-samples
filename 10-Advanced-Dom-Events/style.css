@@ -12,6 +12,7 @@
   --color-tertiary-opacity: #ff58602d;
   --gradient-primary: linear-gradient(to top left, #39b385, #9be15d);
   --gradient-secondary: linear-gradient(to top left, #ffb003, #ffcb03);
+  --draft-grey: #878787;
 }
 
 * {
@@ -26,7 +27,7 @@ html {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 300;
   color: #444;
   line-height: 1.9;
@@ -177,6 +178,7 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .header__title {
@@ -216,7 +218,7 @@ h4 {
 
 .highlight::after {
   display: block;
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -470,7 +472,7 @@ h4 {
 }
 
 .testimonial::before {
-  content: '\201C';
+  content: "\201C";
   position: absolute;
   top: -5.7rem;
   left: -6.8rem;
@@ -666,9 +668,21 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  width: 100%;
+  width: 75%;
   background-color: white;
-  color: #bbb;
+  color: var(--draft-grey);
   font-size: 1.5rem;
   font-weight: 400;
+  border-radius: 1rem;
+  padding: 1rem;
+  position: absolute;
+  bottom: 2rem;
+  box-shadow: inset -0.4rem -1.4rem 2rem 0rem rgba(0, 0, 0, 0.17);
+  animation-name: moveUp;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+}
+
+.btn--close-cookie {
+  padding: 1.1rem 3.8rem;
 }
