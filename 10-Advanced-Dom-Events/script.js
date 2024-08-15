@@ -6,7 +6,11 @@
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
+// All the buttons that creates the modal effect
 const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
+// "Learn more" Button
+const btnScrollTo = document.querySelector(".btn--scroll-to");
+const section1 = document.querySelector("#section--1");
 
 const openModal = function () {
   modal.classList.remove("hidden");
@@ -18,31 +22,31 @@ const closeModal = function () {
   overlay.classList.add("hidden");
 };
 
-for (let i = 0; i < btnsOpenModal.length; i++)
-  btnsOpenModal[i].addEventListener("click", openModal);
+// Add the openModal function to the UI elements
+btnsOpenModal.forEach(el => el.addEventListener("click", openModal));
 
+// Add the closeModal function to the UI elements
 btnCloseModal.addEventListener("click", closeModal);
 overlay.addEventListener("click", closeModal);
 
+// Listen for the "Escape" key to close the modal
 document.addEventListener("keydown", function (e) {
   if (e.key === "Escape" && !modal.classList.contains("hidden")) {
     closeModal();
   }
 });
 
-const btnScrollTo = document.querySelector(".btn--scroll-to");
-const section1 = document.querySelector("#section--1");
+/*
+* Scroll to Section 1 effect from the "Learn more" button to features section.
+* using getBoundingClientRect() then using scrollIntoView.
 
-// Scroll to Section 1 effect
+scrollTo takes the coords in X in this case both are 0. The left of s1 and the scrollX of the window.
+But s1 top is related to the viewport and scrollY is related to the window.
+So the top position of the section in that moment and the scroll that I've done adding together.
+*/
 
 btnScrollTo.addEventListener("click", function (e) {
-  const s1coords = section1.getBoundingClientRect();
-
-  /*
-  scrollTo takes the coords in X in this case both are 0. The left of s1 and the scrollX of the window.
-  But s1 top is related to the viewport and scrollY is related to the window.
-  So the top position of the section in that moment and the scroll that I've done adding together.
-  */
+  // const s1coords = section1.getBoundingClientRect();
 
   // scrollTo(s1coords.left + scrollX, s1coords.top + scrollY);
 
@@ -55,16 +59,55 @@ btnScrollTo.addEventListener("click", function (e) {
   section1.scrollIntoView({ behavior: "smooth" });
 });
 
-// const h1 = document.querySelector("h1");
+/*
+* Page navigation without delegation event
 
-// const showAlert = () => {
-//   alert("mouseenter");
-//   h1.removeEventListener("mouseenter", showAlert);
-// };
-
-// h1.addEventListener("mouseenter", showAlert);
+document.querySelectorAll(".nav__link").forEach(function (el) {
+  el.addEventListener("click", function (e) {
+    e.preventDefault();
+    const id = this.getAttribute("href");
+    console.log(id);
+    document.querySelector(id).scrollIntoView({
+      behavior: "smooth",
+    });
+  });
+});
+ */
 
 /*
+* Changing the color of the h1 element
+
+const h1El = document.querySelector("h1");
+
+const h1BackgroundColor = getComputedStyle(h1El).backgroundColor;
+
+h1El.addEventListener("mouseover", function (e) {
+  this.style.setProperty("background-color", "orangered");
+});
+
+h1El.addEventListener("mouseleave", function (e) {
+  this.style.setProperty("background-color", h1BackgroundColor);
+});
+*/
+
+/*
+* This structure here is important to remove the event listeners.
+
+const showAlert = () => {
+  alert("mouseenter");
+  h1.removeEventListener("mouseenter", showAlert);
+};
+
+h1.addEventListener("mouseenter", showAlert);
+*/
+
+/*
+* Event propagation demo
+
+ * this => The element where the event was attached.
+ * e.target => The element who really triggers the eventListener
+ * e.currentTarget => same as this
+ 
 const createRgbInts = () => {
   const randomInt = (min, max) =>
     Math.floor(Math.random() * (max - min + 1) + min);
@@ -76,28 +119,42 @@ const getRandomColor = () => {
   const [a, b, c] = createRgbInts();
   return `rgb(${a}, ${b}, ${c})`;
 };
+
+document.querySelector(".nav__link").addEventListener("click", function (e) {
+  this.style.setProperty("background-color", `${getRandomColor()}`);
+  console.log("LINK", e.target, e.currentTarget);
+  e.stopPropagation();
+});
+
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  this.style.setProperty("background-color", `${getRandomColor()}`);
+  console.log("CONTAINER", e.target, e.currentTarget);
+});
+
+document.querySelector(".nav").addEventListener("click", function (e) {
+  this.style.setProperty("background-color", `${getRandomColor()}`);
+  console.log("NAV", e.target, e.currentTarget);
+});
+
  */
 
-/*
- * this => The element where the event was attached.
- * e.target => The element who really triggers the eventListener
- * e.currentTarget => same as this
- */
+/* Event delegation
+1. Add event listener to common parent element
+2. Determine what element originated the event
 
-// Event propagation demo
+Page navigation function from nav links to respective section.
+*/
 
-// document.querySelector(".nav__link").addEventListener("click", function (e) {
-//   this.style.setProperty("background-color", `${getRandomColor()}`);
-//   console.log("LINK", e.target, e.currentTarget);
-//   e.stopPropagation();
-// });
-
-// document.querySelector(".nav__links").addEventListener("click", function (e) {
-//   this.style.setProperty("background-color", `${getRandomColor()}`);
-//   console.log("CONTAINER", e.target, e.currentTarget);
-// });
-
-// document.querySelector(".nav").addEventListener("click", function (e) {
-//   this.style.setProperty("background-color", `${getRandomColor()}`);
-//   console.log("NAV", e.target, e.currentTarget);
-// });
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  e.preventDefault();
+  const rootReference = "#";
+  if (
+    e.target.classList.contains("nav__link") &&
+    e.target.getAttribute("href") !== rootReference
+  ) {
+    const id = e.target.getAttribute("href");
+    document.querySelector(id).scrollIntoView({
+      behavior: "smooth",
+    });
+  }
+});
