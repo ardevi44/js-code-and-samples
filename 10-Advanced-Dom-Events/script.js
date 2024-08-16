@@ -163,6 +163,13 @@ document.querySelector(".nav__links").addEventListener("click", function (e) {
   }
 });
 
+/*
+Making the tab functionality for the operations content
+
+Section 2 functionality.
+It changes the content while the user tab over the different options.
+*/
+
 tabContainer.addEventListener("click", function (e) {
   const tabClicked = e.target.closest(".operations__tab");
   // Guard clause
@@ -181,3 +188,40 @@ tabContainer.addEventListener("click", function (e) {
     .querySelector(`.operations__content--${tabClicked.dataset.tab}`)
     .classList.add("operations__content--active");
 });
+
+/*
+* DOM traversing
+
+const h1 = document.querySelector("h1");
+
+console.log(h1.querySelectorAll(".highlight"));
+console.log(h1.childNodes);
+console.log(h1.children);
+h1.firstElementChild.style.color = "white";
+h1.lastElementChild.style.color = "orangered";
+
+// Going upwards: parents
+console.log(h1.parentNode);
+console.log(h1.parentElement);
+
+h1.closest(".header").style.background = "var(--gradient-secondary)";
+h1.closest("h1").style.background = "var(--gradient-primary)";
+
+// Going sideways: siblings
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+
+// nextSibling considers even the text nodes like the Enter or new line code
+// The first nextSibling based on our code is a break line textNode
+// Then the h4 element
+console.log(h1.nextSibling.nextSibling);
+console.log(h1.previousSibling.previousSibling); // still null
+
+console.log(h1.parentElement.children);
+
+[...h1.parentElement.children].forEach(el => {
+  // All the elements that aren't the h1 will be small
+  if (el !== h1) el.style.transform = "scale(0.5)";
+});
+
+*/
