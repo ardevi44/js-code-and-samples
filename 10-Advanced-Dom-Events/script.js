@@ -2,7 +2,7 @@
 
 ///////////////////////////////////////
 // Modal window
-
+const nav = document.querySelector(".nav");
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
@@ -225,3 +225,24 @@ console.log(h1.parentElement.children);
 });
 
 */
+
+// nav bar fade animation
+const fadeNavLinks = function (e) {
+  if (e.target.classList.contains("nav__link")) {
+    const link = e.target;
+    // Select all the brothers of the link target
+    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+    // also the logo
+    // const logo = link.closest(".nav").querySelector("img");
+
+    // Set all links to opacity 0.5 except the target
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+    });
+    // Set the logo also opacity 0.5
+    // logo.style.opacity = 0.5;
+  }
+};
+
+nav.addEventListener("mouseover", fadeNavLinks.bind(0.5));
+nav.addEventListener("mouseout", fadeNavLinks.bind(1));
