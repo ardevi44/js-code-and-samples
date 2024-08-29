@@ -316,3 +316,43 @@ const imgObserver = new IntersectionObserver(loadImg, {
 imgTargets.forEach(img => {
   imgObserver.observe(img);
 });
+
+// Select all the slides
+const slides = document.querySelectorAll(".slide");
+//  Select al the buttons
+const btnLeft = document.querySelector(".slider__btn--left");
+const btnRight = document.querySelector(".slider__btn--right");
+
+let currentSlide = 0;
+const maxSlide = slides.length - 1;
+
+// // * Do some magic to see the changes better
+// const slider = document.querySelector(".slider");
+// slider.style.transform = "scale(0.4) translateX(-800px)";
+// slider.style.overflow = "visible";
+
+// This will make the INITIAL arrange of the slides
+slides.forEach((slide, index) => {
+  slide.style.transform = `translateX(${index * 100}%)`;
+});
+
+// Actualize all the slides into the slider based on the current slide
+const moveSlides = function (currentSlide) {
+  slides.forEach((slide, index) => {
+    slide.style.transform = `translateX(${(index - currentSlide) * 100}%)`;
+  });
+};
+
+// Right button functionality
+btnRight.addEventListener("click", e => {
+  if (currentSlide === maxSlide) currentSlide = 0;
+  else currentSlide++;
+  moveSlides(currentSlide);
+});
+
+// Left button functionality
+btnLeft.addEventListener("click", e => {
+  if (currentSlide === 0) currentSlide = maxSlide;
+  else currentSlide--;
+  moveSlides(currentSlide);
+});
