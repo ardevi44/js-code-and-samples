@@ -18,6 +18,10 @@ const tabsContent = document.querySelectorAll(".operations__content");
 // Header section selection for the Intersection Observer bellow
 const header = document.querySelector(".header");
 const navHeight = nav.getBoundingClientRect().height;
+const slides = document.querySelectorAll(".slide");
+const btnLeft = document.querySelector(".slider__btn--left");
+const btnRight = document.querySelector(".slider__btn--right");
+const dotsContainer = document.querySelector(".dots");
 
 const openModal = function () {
   modal.classList.remove("hidden");
@@ -317,42 +321,82 @@ imgTargets.forEach(img => {
   imgObserver.observe(img);
 });
 
-// Select all the slides
-const slides = document.querySelectorAll(".slide");
-//  Select al the buttons
-const btnLeft = document.querySelector(".slider__btn--left");
-const btnRight = document.querySelector(".slider__btn--right");
+// SLIDER FUNCTIONALITY
 
-let currentSlide = 0;
-const maxSlide = slides.length - 1;
+const slider = function () {
+  let currentSlide = 0;
+  const maxSlide = slides.length - 1;
 
-// // * Do some magic to see the changes better
-// const slider = document.querySelector(".slider");
-// slider.style.transform = "scale(0.4) translateX(-800px)";
-// slider.style.overflow = "visible";
+  // Actualizes all the slides into the slider container based on the current slide
+  // NOTE:
+  /*
+  Note that the slides are positioned one top of the other
+  means the the positioning in X will occur from it's current position in the
+  html flow, and translates from here to the left or right.
+  */
+  const goToSlide = function (slide) {
+    slides.forEach((s, i) => {
+      s.style.transform = `translateX(${(i - slide) * 100}%)`;
+    });
+  };
 
-// This will make the INITIAL arrange of the slides
-slides.forEach((slide, index) => {
-  slide.style.transform = `translateX(${index * 100}%)`;
-});
+  const nextSlide = function () {
+    if (currentSlide === maxSlide) currentSlide = 0;
+    else currentSlide++;
+    goToSlide(currentSlide);
+    showActiveDot(currentSlide);
+  };
 
-// Actualize all the slides into the slider based on the current slide
-const moveSlides = function (currentSlide) {
-  slides.forEach((slide, index) => {
-    slide.style.transform = `translateX(${(index - currentSlide) * 100}%)`;
+  const prevSlide = function () {
+    if (currentSlide === 0) currentSlide = maxSlide;
+    else currentSlide--;
+    goToSlide(currentSlide);
+    showActiveDot(currentSlide);
+  };
+
+  // Create the dots for the slider dots control
+  const createDots = function () {
+    slides.forEach(function (_, i) {
+      dotsContainer.insertAdjacentHTML(
+        "beforeend",
+        `<button class="dots__dot" data-slide="${i}"></button>`
+      );
+    });
+  };
+
+  // Shows which slide is active right now indicated by the dots below it
+  const showActiveDot = function (slide) {
+    document.querySelectorAll(".dots__dot").forEach(dot => {
+      dot.classList.remove("dots__dot--active");
+    });
+    document
+      .querySelector(`.dots__dot[data-slide="${slide}"]`)
+      .classList.add("dots__dot--active");
+  };
+
+  btnRight.addEventListener("click", nextSlide);
+  btnLeft.addEventListener("click", prevSlide);
+
+  document.addEventListener("keydown", function (e) {
+    e.key === "ArrowLeft" && prevSlide();
+    e.key === "ArrowRight" && nextSlide();
   });
+
+  dotsContainer.addEventListener("click", function (e) {
+    if (e.target.classList.contains("dots__dot")) {
+      const { slide } = e.target.dataset;
+      goToSlide(slide);
+      showActiveDot(slide);
+    }
+  });
+
+  const init = function () {
+    goToSlide(0);
+    createDots();
+    showActiveDot(0);
+  };
+
+  init();
 };
 
-// Right button functionality
-btnRight.addEventListener("click", e => {
-  if (currentSlide === maxSlide) currentSlide = 0;
-  else currentSlide++;
-  moveSlides(currentSlide);
-});
-
-// Left button functionality
-btnLeft.addEventListener("click", e => {
-  if (currentSlide === 0) currentSlide = maxSlide;
-  else currentSlide--;
-  moveSlides(currentSlide);
-});
+slider();
