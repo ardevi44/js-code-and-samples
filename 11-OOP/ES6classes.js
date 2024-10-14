@@ -31,10 +31,10 @@ class PersonCl {
     return this._fullName;
   }
 
-  // // This is a static method in ES6 classes
-  // static hey() {
-  //   console.log("Hello there!");
-  // }
+  // This is a static method in ES6 classes
+  static hey() {
+    console.log("Hello there!");
+  }
 }
 
 const jessica = new PersonCl("Jessica Daniels", 1996);

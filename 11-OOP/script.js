@@ -40,6 +40,7 @@ const matilda = new Person("Matilda", 2017);
 // Static method behavior is like a kind of helper.
 Person.sayHello = function () {
   console.log(`Hi I'm static`);
+  console.log(this); // "this" is the constructor
 };
 
 console.log(jonas);
@@ -75,3 +76,6 @@ console.log(arr.__proto__);
 
 const h1 = document.querySelector("h1");
 console.dir(h1);
+
+console.warn("Static method");
+Person.sayHello();
