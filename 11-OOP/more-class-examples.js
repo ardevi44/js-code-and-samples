@@ -42,7 +42,7 @@ acc1.deposit(250);
 acc1.withdraw(140);
 acc1.requestLoan(1000);
 // We should never be allowed to access this method, cause is internal and responsibility of the requestLoan method
-acc1.approveLoan(1000);
+acc1._approveLoan(1000);
 // We can access to this property, but it should be hide.
 // console.log(acc1.pin);
 
