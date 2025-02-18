@@ -26,7 +26,7 @@ console.log(Number(inputYear) + 18);
 
 // NaN actually means a invalid number, cause "typeof NaN" is "number"
 console.log(Number("Jonas")); // NaN
-console.log(typeof NaN);
+console.log(typeof NaN); // It causes "number" output
 
 console.log(String(23), 23);
 
