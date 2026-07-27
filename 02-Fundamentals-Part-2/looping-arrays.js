@@ -14,7 +14,7 @@ const types = [];
 
 for (let i = 0; i < jonas.length; i++) {
   console.log(jonas[i], typeof jonas[i]);
-  // fill an array dinamicly, it works cause iterator works as a property for the array
+  // fill an array dynamically, it works cause iterator works as a property for the array
   types[i] = typeof jonas[i];
 }
 

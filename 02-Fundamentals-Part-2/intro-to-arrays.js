@@ -19,3 +19,16 @@ console.log(friends[friends.length - 1]);
 // We can mutate arrays elements even though they were declare with const
 friends[2] = "Jay";
 console.log(friends);
+
+// A very clever way to use functions inside arrays
+// very interesting
+const calcAge = function (birthYear) {
+  return 2037 - birthYear;
+};
+
+const ages = new Array(
+  calcAge(years[0]),
+  calcAge(years[1]),
+  calcAge(years[years.length - 1]),
+);
+console.log(ages);
