@@ -6,6 +6,7 @@ export function assignDocTitle(lectureTitle) {
   document.title = lectureTitle;
 }
 
+// It will change both the title and the h1 page content
 export function assignDocTitleAndH1(lectureName) {
   assignDocTitle(lectureName);
   assignH1Text(lectureName);

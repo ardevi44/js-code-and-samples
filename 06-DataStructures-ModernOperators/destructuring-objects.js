@@ -11,7 +11,6 @@ const restaurant = {
   categories: ["Italian", "Pizzeria", "Vegetarian", "Organic"],
   starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
   mainMenu: ["Pizza", "Pasta", "Risotto"],
-
   openingHours: {
     thu: {
       open: 12,
@@ -26,14 +25,12 @@ const restaurant = {
       close: 24,
     },
   },
-
   order: function (starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
-
   orderDelivery: function ({ starterIndex, mainIndex, time, address }) {
     console.log(
-      `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+      `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`,
     );
   },
 };
@@ -76,7 +73,7 @@ let b = 999;
 // Declare a new object with de same key values.
 const obj = { a: 23, b: 7, c: 14 };
 
-// Then we are triying to change the value of the global variables "a" and "b"
+// Then we are trying to change the value of the global variables "a" and "b"
 // by the values inside de object "obj".
 // {a, b} = obj -> But this line is going to set an error.
 

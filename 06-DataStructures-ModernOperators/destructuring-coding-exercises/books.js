@@ -1,3 +1,4 @@
+"use strict";
 // Books sample data
 
 const books = [
@@ -227,23 +228,65 @@ const books = [
 
 // Exercises
 
-console.log("Number of books ", books.length);
-const [firstBook, secondBook] = books;
+// Destructuring Arrays
 
-const [, , thirdBook] = books;
+// const [firstBook, secondBook] = books;
 
-console.log(thirdBook.title);
+// const [, , thirdBook] = books;
 
-console.log(firstBook, secondBook, thirdBook);
+// const ratings = [
+//   ["rating", 4.19],
+//   ["ratingsCount", 144584],
+// ];
 
-const ratings = [
-  ["rating", 4.19],
-  ["ratingsCount", 144584],
-];
+// const [[, rating], [, ratingsCount]] = ratings;
 
-const [[, rating], [, ratingsCount]] = ratings;
+// const ratingStars = [63405, 1808];
 
-console.log("Rating: ", rating, " Ratings Count: ", ratingsCount);
+// Destructuring Objects in JavaScript
 
-const ratingStars = [63405, 1808];
-fiveStarRatings, oneStarRatings, threeStarRatings;
+/*
+Destructure the first book object from the books array into variables called title, author and ISBN.
+ */
+
+const [firstBook] = books;
+
+// Destructuring a book
+
+const { title, author, ISBN } = firstBook;
+
+// Changing the name of an attribute, by destructuring
+
+const { keywords: tags } = firstBook;
+
+const seventhBook = books[6];
+
+// Assign a default value to a variable from the object
+
+const { language, programmingLanguage = "unknown" } = seventhBook;
+
+// Reassign global variables values from an object
+
+let bookTitle = "unknown";
+let bookAuthor = "unknown";
+
+({ title: bookTitle, author: bookAuthor } = firstBook);
+
+// Destructuring book rating
+
+const {
+  thirdParty: {
+    goodreads: { rating: bookRating },
+  },
+} = firstBook;
+
+console.log(bookRating);
+
+// Printing Book Information
+
+const printBookInfo = function ({ title, author, year = "year unknown" }) {
+  if (typeof author === "object" && author.length > 1) author = author[0];
+  return `${title} by ${author}, ${year}`;
+};
+
+console.log(printBookInfo(firstBook));
