@@ -1,30 +1,20 @@
 "use strict";
 
 import { assignDocTitleAndH1 } from "./assets/js/globals.js";
+// Restaurant object reference file
+import { restaurant } from "./restaurant-object.js";
 
 assignDocTitleAndH1("Short circuit and Nullish Coalescing Operator");
 
-// Short circuit 3 is the first truly value. So we get 3
+// Logical Operators example
+
+// We get 3
 console.log(3 || "Jonas");
 
-// Here we get 'Jonas' cause the first value is false then pass to next one
-// and it's true and also the last one so if the last value
-//  is false the circuit will show it anyway.
+/*Here we gonna get "Jonas" cause the OR operator will continue evaluating till it finds
+a truthy value in this case is "Jonas" so the operator's evaluation ends there.*/
 console.log("" || 0 || false || "Jonas");
-console.log(undefined || 0 || "" || "Hello" || 23 || null);
-
-const restaurant = {
-  name: "Classico Italiano",
-  location: "Via Angelo Tavanti 23, Firenze, Italy",
-  categories: ["Italian", "Pizzeria", "Vegetarian", "Organic"],
-  starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
-  mainMenu: ["Pizza", "Pasta", "Risotto"],
-
-  orderPizza: function (mainIngredient, ...otherIngredients) {
-    console.log(mainIngredient);
-    console.log(otherIngredients);
-  },
-};
+console.log(undefined || 0 || "" || "Hello" || 23 || null); // Hello
 
 restaurant.numGuests = 23;
 
@@ -36,16 +26,17 @@ console.log(guest2); // 23 again
 
 console.log(0 && "Jonas");
 console.log(7 && "Jonas");
-console.log("Hello" && 23 && null && "Jonas");
+console.warn("Hello" && 23 && null && "Jonas"); // null
 
 restaurant.orderPizza && restaurant.orderPizza("mushrooms", "spinach");
 
-// TAKE NOTES LATER ...
+// Nullish Coalescing Operator example
+
 console.warn("---- Nullish Coalescing Operator ?? ----");
 restaurant.numGuests = 0;
 const guests = restaurant.numGuests || 10;
-console.log(guests);
+console.log(guests); // 10 because the op. evaluates the 0 as falsy value
 
-// Nullish: null and undefined (NOT 0 or '')
+// Nullish: just excludes null and undefined, the value of 0 is accepted
 const guestCorrect = restaurant.numGuests ?? 10;
-console.log(guestCorrect);
+console.log(guestCorrect); // 0
